@@ -27,6 +27,8 @@ public class ServiceCommunicator {
         }
     }
 
+    public ServiceCommunicator() { }
+
     /*
      get() - read the reply from the webserver specifed in the constructor.
             returns a string that captured the output from that service.

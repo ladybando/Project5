@@ -1,12 +1,11 @@
 public class Television extends ServiceCommunicator{
     public Television(String serviceURL, String show) {
-        super(serviceURL);
-        this.show = show;
+        super(serviceURL + show);
     }
 
-    private String show;
-
-    public String get(){
-        return super.get() + show;
-    }
+/*tester method
+    public static void main(String[] args) {
+        Television show = new Television("http://api.tvmaze.com/singlesearch/shows?q=","Lovecraft Country");
+        System.out.println(show.get());
+    }*/
 }

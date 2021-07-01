@@ -1,8 +1,4 @@
 import java.util.Scanner;
-import com.fasterxml.jackson.core.PrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class TheDeets {
 
@@ -11,15 +7,15 @@ public class TheDeets {
     }
 
     public static void testApp() {
-        System.out.print("""
-                 Enter the information you are searching for -->
-                  Zip Code    = zip\s
-                  TV Show     = show\s
-                  Song/Artist = song\s
-                  Wiki Things = wiki\s
-                  End Session = quit\s                  
-                 """);
         while (true) {
+            System.out.print("""
+                     \nEnter the information you are searching for -->
+                      Zip Code    = zip\s
+                      TV Show     = show\s
+                      Song/Artist = song\s
+                      Wiki Things = wiki\s
+                      End Session = quit\s
+                     """);
             Scanner user_input = new Scanner(System.in);
             String info = user_input.next();
             if (info.equalsIgnoreCase("zip")) {
@@ -43,31 +39,35 @@ public class TheDeets {
         System.out.print("Enter Zip Code information --> ");
         Scanner user_input = new Scanner(System.in);
         String cmd = user_input.next();
-        PrettyPrint zip = new PrettyPrint("http://api.zippopotam.us/us/", cmd);
-        System.out.println(zip.get());
+        ServiceCommunicator zip = new Zipcode("http://api.zippopotam.us/us/", cmd);
+        String result = zip.get();
+        PrettyPrint.prettify(result);
     }
 
     public static void getShow(){
         System.out.print("Enter Show information --> ");
         Scanner user_input = new Scanner(System.in);
         String cmd = user_input.next().replaceAll("\\s", "-");
-        PrettyPrint show = new PrettyPrint("http://api.tvmaze.com/singlesearch/shows?q=", cmd);
-        System.out.println(show.get());
+        ServiceCommunicator show = new Television("http://api.tvmaze.com/singlesearch/shows?q=", cmd);
+        String result = show.get();
+        PrettyPrint.prettify(result);
     }
 
     public static void getSong(){
         System.out.print("Enter Song information --> ");
         Scanner user_input = new Scanner(System.in);
         String cmd = user_input.next().replaceAll("\\s", "-");
-        PrettyPrint song = new PrettyPrint("https://itunes.apple.com/search?term=", cmd + "&limit=1");
-        System.out.println(song.get());
+        ServiceCommunicator song = new Music("https://itunes.apple.com/search?term=", cmd + "&limit=1");
+        String result = song.get();
+        PrettyPrint.prettify(result);
     }
 
     public static void getWiki(){
         System.out.print("Enter Wiki search information --> ");
         Scanner user_input = new Scanner(System.in);
         String cmd = user_input.next().replaceAll("\\s", "-");
-        PrettyPrint wiki = new PrettyPrint("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=", cmd + "&format=json");
-        System.out.println(wiki.get());
+        ServiceCommunicator wiki = new Wiki("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=", cmd + "&format=json");
+        String result = wiki.get();
+        PrettyPrint.prettify(result);
     }
 }

@@ -3,27 +3,39 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class PrettyPrint extends ServiceCommunicator{
-    public PrettyPrint(String serviceURL, String param){
-        super(serviceURL + param);
+public class PrettyPrint {
+    public PrettyPrint() {
+    }
+
+    public static String prettify(String result) {
         try {
-            String str = new ServiceCommunicator(serviceURL + param).get();
-            HashMap<String, Object> obj_map = new ObjectMapper().readValue(str, HashMap.class);
+            HashMap<String, Object> obj_map = new ObjectMapper().readValue(result, HashMap.class);
             for (String obj : obj_map.keySet()) {
                 System.out.println(obj + ": " + obj_map.get(obj));
             }
         } catch (JsonProcessingException jpe) {
             jpe.getMessage();
-        } catch(IOException ie){
+        } catch (IOException ie) {
             ie.printStackTrace();
         }
+        return result;
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(new PrettyPrint("http://api.zippopotam.us/us/" , "10553"));
-        System.out.println(new PrettyPrint("https://itunes.apple.com/search?term=" , "bbking" + "\\&limit=1"));
-        System.err.println("==================================");
-        System.out.println(new PrettyPrint("http://api.tvmaze.com/singlesearch/shows?q=","Lovecraft Country"));
-    }
+/*    public static void main(String[] args) {
+        ServiceCommunicator z = new Zipcode("http://api.zippopotam.us/us/", "10553");
+        String result = z.get();
+        PrettyPrint.prettify(result);
+        System.out.println("============================================================");
+        ServiceCommunicator m = new Music("https://itunes.apple.com/search?term=", "bbking" + "\\&limit=1");
+        String results = m.get();
+        PrettyPrint.prettify(results);
+        System.err.println("====================================================");
+        ServiceCommunicator t = new Television("http://api.tvmaze.com/singlesearch/shows?q=", "Lovecraft Country");
+        String resultss = t.get();
+        PrettyPrint.prettify(resultss);
+        ServiceCommunicator w = new Wiki("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=", "orange" + "&format=json");
+        String res= w.get();
+        PrettyPrint.prettify(res);
+    }*/
 }
